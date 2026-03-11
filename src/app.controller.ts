@@ -1,4 +1,4 @@
-import { Controller, Get, Req, Res, Query, Param } from '@nestjs/common';
+import { Controller, Get, Req, Res, Query, Param, ParseIntPipe, ParseBoolPipe, ParseArrayPipe } from '@nestjs/common';
 import type { Request, Response } from 'express';
 import { AppService } from './app.service';
 
@@ -22,6 +22,25 @@ export class AppController {
       Name: `${name}`,
       Age: `${age}`,
     };
+  }
+
+  @Get('pipes/array')
+  getArr(@Query('num', new ParseArrayPipe({items: Number})) num: number[]) {
+    return num;
+  }
+
+  @Get('pipes/:id')
+  getId(@Param('id', ParseIntPipe) id: number) {
+    return `Fetched id: ${id}`;
+  }
+
+  @Get('pipes')
+  gelVal(@Query('isActive', ParseBoolPipe) isActive: boolean) {
+    if(isActive) {
+      return 'Welcome Admin!';
+    } else {
+      return 'Welcome User!';
+    }
   }
 
   @Get(':id')
