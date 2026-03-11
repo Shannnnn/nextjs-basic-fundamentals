@@ -5,7 +5,7 @@ import { PhoneAuth } from './customPipe/phoneAuth';
 @Controller('auth')
 export class AuthController {
     @Post('register')
-    @UsePipes(ValidationPipe, PhoneAuth)
+    @UsePipes(PhoneAuth)
     registerUser(@Body() userData: AuthDto){
         return {
             data: userData,
